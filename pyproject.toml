@@ -1,7 +1,9 @@
 [project]
-name = "test-vast"
+name = "mon-projet"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.14"
-dependencies = []
+description = "Projet Airflow execute sur une machine Vast.ai"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "apache-airflow==2.10.3",
+    "torch>=2.14.1",
+]

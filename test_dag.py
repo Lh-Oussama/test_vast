@@ -11,12 +11,25 @@ def preparer_donnees():
 
 
 def entrainer_modele():
-    print("Entrainement du modele...")
-    try:
-        import torch
-        print("GPU disponible :", torch.cuda.is_available())
-    except ImportError:
-        print("PyTorch non installe, entrainement simule.")
+    import torch  # import dans la fonction : chargement du DAG plus rapide
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print("Device utilise :", device)
+    if device == "cuda":
+        print("GPU :", torch.cuda.get_device_name(0))
+
+    # Mini entrainement de test
+    model = torch.nn.Linear(10, 1).to(device)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+    x = torch.randn(256, 10, device=device)
+    y = torch.randn(256, 1, device=device)
+
+    for epoch in range(5):
+        loss = torch.nn.functional.mse_loss(model(x), y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        print(f"epoch {epoch} - loss {loss.item():.4f}")
 
 
 def evaluer_modele():
